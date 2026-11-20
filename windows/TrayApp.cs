@@ -16,6 +16,7 @@ public sealed class TrayApp : ApplicationContext
     readonly ToolStripMenuItem mAnc = new("ANC"), mAmb = new("Ambient"), mOff = new("Off");
     readonly ToolStripMenuItem mReseat = new("Re-seat"), mConnect = new("Connect on this PC");
     readonly ToolStripMenuItem mAuto = new("Start with Windows");
+    readonly ToolStripMenuItem mTwice = new("Re-seat with two cycles");
     readonly System.Windows.Forms.Timer poll = new() { Interval = 4000 };
     IntPtr lastHicon;
 
@@ -30,12 +31,23 @@ public sealed class TrayApp : ApplicationContext
         mReseat.Click += (_, _) => link.Reseat();
         mConnect.Click += (_, _) => { if (link.State.Paired) link.Connect(force: true); else PanelForm.OpenBluetoothSettings(); };
         mAuto.Click += (_, _) => { Settings.StartWithWindows = !mAuto.Checked; mAuto.Checked = Settings.StartWithWindows; };
+        mTwice.Click += (_, _) =>
+        {
+            Settings.Current.ReseatCycles = mTwice.Checked ? 1 : 2;
+            Settings.Save();
+            mTwice.Checked = Settings.Current.ReseatCycles == 2;
+        };
         var mLog = new ToolStripMenuItem("Open log folder", null, (_, _) => OpenFolder());
         var mExit = new ToolStripMenuItem("Exit", null, (_, _) => Exit());
         menu.Items.AddRange(new ToolStripItem[] {
-            mAnc, mAmb, mOff, new ToolStripSeparator(), mReseat, mConnect, new ToolStripSeparator(), mAuto, mLog, mExit,
+            mAnc, mAmb, mOff, new ToolStripSeparator(), mReseat, mConnect, new ToolStripSeparator(), mTwice, mAuto, mLog, mExit,
         });
-        menu.Opening += (_, _) => { mAuto.Checked = Settings.StartWithWindows; RenderMenu(link.State); };
+        menu.Opening += (_, _) =>
+        {
+            mAuto.Checked = Settings.StartWithWindows;
+            mTwice.Checked = Settings.Current.ReseatCycles == 2;
+            RenderMenu(link.State);
+        };
 
         icon.ContextMenuStrip = menu;
         icon.MouseClick += (_, e) =>

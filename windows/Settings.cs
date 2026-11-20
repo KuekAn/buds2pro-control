@@ -7,6 +7,8 @@ namespace BudsControl;
 public sealed class Settings
 {
     public ulong Address { get; set; }
+    /// <summary>Off/on cycles per re-seat: 1 (default) or 2.</summary>
+    public int ReseatCycles { get; set; } = 1;
 
     public static readonly string Dir =
         Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "BudsControl");

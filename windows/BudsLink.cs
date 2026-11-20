@@ -203,7 +203,7 @@ public sealed class BudsLink
     }
 
     /// <summary>
-    /// Software stand-in for re-seating the buds: two off/on cycles, then check they ended on
+    /// Software stand-in for re-seating the buds: one (or, if set, two) off/on cycles, then check they ended on
     /// the target mode. A command sent mid-transition is silently dropped, hence the waits.
     /// </summary>
     public void Reseat()
@@ -217,7 +217,8 @@ public sealed class BudsLink
         {
             try
             {
-                for (int i = 0; i < 2; i++) { SetModeAndWait(bounce); SetModeAndWait(mode); }
+                int cycles = Math.Clamp(Settings.Current.ReseatCycles, 1, 2);
+                for (int i = 0; i < cycles; i++) { SetModeAndWait(bounce); SetModeAndWait(mode); }
                 for (int r = 0; r < 3; r++)
                 {
                     Thread.Sleep(800);

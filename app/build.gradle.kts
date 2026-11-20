@@ -14,8 +14,8 @@ android {
         // Android 12 rule that blocks starting a foreground service from a
         // Bluetooth broadcast in the background (needed to auto-connect).
         targetSdk = 30
-        versionCode = 7
-        versionName = "0.3.4"
+        versionCode = 8
+        versionName = "0.3.5"
     }
 
     buildTypes {

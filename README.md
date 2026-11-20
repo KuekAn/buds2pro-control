@@ -47,7 +47,7 @@ The only network use is the update check: on request, or once a day if you turn 
 - The tray icon shows the mode: solid for ANC, outline for Ambient, faint for Off or not connected. Hover for battery.
 - Left click opens a panel with L/R/case battery, in-ear status, ANC / Ambient / Off and Re-seat. Right click has the same actions, Start with Windows, and the log folder.
 - It is sticky like the phone app: it only opens its link while Windows already has the buds connected. "Connect on this PC" asks for them on purpose.
-- Download [release/BudsControl-Windows-0.1.0.exe](release/BudsControl-Windows-0.1.0.exe) (one file, ~200 KB). It needs Microsoft's [.NET 9 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/9.0). Windows may warn that it's from an unknown publisher, because it isn't code-signed.
+- Download [release/BudsControl-Windows-0.1.1.exe](release/BudsControl-Windows-0.1.1.exe) (one file, ~200 KB). It needs Microsoft's [.NET 9 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/9.0). Windows may warn that it's from an unknown publisher, because it isn't code-signed.
 - Pair the buds with the PC first (Settings > Bluetooth & devices). To build it yourself, run `windowsuild.ps1` with the .NET 9 SDK.
 
 ## Build

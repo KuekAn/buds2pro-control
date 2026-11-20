@@ -61,6 +61,11 @@ class MoreActivity : Activity() {
         }
         col.addView(oneBud)
 
+        col.addView(sw("Re-seat with two cycles\nOff → mode twice instead of once, for stubborn mismatches").apply {
+            isChecked = BudsService.reseatCycles(this@MoreActivity) == 2
+            setOnClickListener { BudsService.setReseatCycles(this@MoreActivity, if (isChecked) 2 else 1) }
+        })
+
         header("Customise ambient sound")
         customOn = sw("Use custom ambient sound")
         customOn.setOnClickListener { sendCustom() }

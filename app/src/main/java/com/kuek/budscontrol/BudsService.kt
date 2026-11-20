@@ -71,6 +71,11 @@ class BudsService : Service() {
             instance?.refreshNotification()
         }
 
+        /** Off/on cycles per re-seat: 1 (default) or 2, set in More. */
+        fun reseatCycles(ctx: Context) = ctx.getSharedPreferences("buds", MODE_PRIVATE).getInt("reseat_cycles", 1)
+        fun setReseatCycles(ctx: Context, n: Int) =
+            ctx.getSharedPreferences("buds", MODE_PRIVATE).edit().putInt("reseat_cycles", n.coerceIn(1, 2)).apply()
+
         fun ensureChannels(ctx: Context) {
             val nm = ctx.getSystemService(NotificationManager::class.java)
             nm.createNotificationChannel(
@@ -233,12 +238,12 @@ class BudsService : Service() {
         BudsStore.update(this) { it.copy(reseating = true) }
         // One writer task with real pauses between steps. (Queueing the packets
         // separately let them go out back to back, which is why one tap used to
-        // be not enough.) Two off/on cycles, matching what two taps did by hand.
+        // be not enough.) One off/on cycle by default; More can set two.
         writer.execute {
             try {
                 // Each step waits for the buds' ack, then lets them settle.
                 // A command sent mid-transition is silently dropped.
-                repeat(2) {
+                repeat(reseatCycles(this@BudsService)) {
                     setModeAndWait(bounce)
                     setModeAndWait(mode)
                 }

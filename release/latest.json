@@ -1,6 +1,6 @@
 {
-  "versionCode": 7,
-  "versionName": "0.3.4",
-  "apk": "release/BudsControl-0.3.4.apk",
-  "notes": "Vertical widgets (solid and glass), a minimal 1x1 mode tile, clearer widget names, and an option for a quiet connection notification."
+  "versionCode": 8,
+  "versionName": "0.3.5",
+  "apk": "release/BudsControl-0.3.5.apk",
+  "notes": "Re-seat now does one off/on cycle; More has an option for two."
 }
