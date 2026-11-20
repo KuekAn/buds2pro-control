@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One-row widget button: drawn 7dp in from every edge so it looks smaller;
+     the whole cell stays tappable. -->
+<inset xmlns:android="http://schemas.android.com/apk/res/android" android:inset="7dp">
+    <shape android:shape="rectangle">
+        <solid android:color="@color/accent" />
+        <corners android:radius="13dp" />
+    </shape>
+</inset>

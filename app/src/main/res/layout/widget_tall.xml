@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 2+ rows tall: header, mode buttons that fill the height, re-seat bar.
+     Colours and backgrounds are set from code (solid or glass style). -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/w_root"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:padding="12dp"
+    android:background="@drawable/widget_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:gravity="center_vertical"
+        android:paddingStart="4dp" android:paddingEnd="4dp">
+        <TextView android:id="@+id/w_title"
+            android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+            android:text="Buds2 Pro" android:textColor="@color/text" android:textSize="13sp"
+            android:textStyle="bold" android:maxLines="1" />
+        <TextView android:id="@+id/w_battery"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="@string/tap_to_connect" android:textColor="@color/text" android:textSize="13sp"
+            android:maxLines="1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"
+        android:orientation="horizontal"
+        android:layout_marginTop="2dp" android:layout_marginBottom="2dp">
+        <TextView android:id="@+id/w_anc" android:layout_width="0dp" android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center" android:text="ANC" android:textSize="18sp" android:autoSizeTextType="uniform" android:autoSizeMinTextSize="11sp" android:autoSizeMaxTextSize="18sp" android:paddingStart="2dp" android:paddingEnd="2dp" android:textStyle="bold"
+            android:maxLines="1" android:textColor="@color/text" android:background="@drawable/pill_off_tall" />
+        <TextView android:id="@+id/w_amb" android:layout_width="0dp" android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center" android:text="Ambient" android:textSize="18sp" android:autoSizeTextType="uniform" android:autoSizeMinTextSize="11sp" android:autoSizeMaxTextSize="18sp" android:paddingStart="2dp" android:paddingEnd="2dp" android:textStyle="bold"
+            android:maxLines="1" android:textColor="@color/text" android:background="@drawable/pill_off_tall" />
+        <TextView android:id="@+id/w_off" android:layout_width="0dp" android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center" android:text="Off" android:textSize="18sp" android:autoSizeTextType="uniform" android:autoSizeMinTextSize="11sp" android:autoSizeMaxTextSize="18sp" android:paddingStart="2dp" android:paddingEnd="2dp" android:textStyle="bold"
+            android:maxLines="1" android:textColor="@color/text" android:background="@drawable/pill_off_tall" />
+    </LinearLayout>
+
+    <TextView android:id="@+id/w_reseat"
+        android:layout_width="match_parent" android:layout_height="34dp"
+        android:gravity="center" android:text="@string/reseat_short" android:textSize="14sp"
+        android:textColor="@color/text" android:background="@drawable/pill_off" />
+</LinearLayout>

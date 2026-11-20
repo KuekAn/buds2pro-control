@@ -11,4 +11,13 @@
     <color name="single">#8CC7BE</color>
     <color name="single_text">#2E7A70</color>
     <color name="on_single">#10302B</color>
+    <!-- Glass widget: fixed colours, drawn over the wallpaper in light and dark mode. -->
+    <color name="glass_bg">#73121212</color>
+    <color name="glass_pill_off">#1FFFFFFF</color>
+    <color name="glass_pill_on">#E6F2F2F2</color>
+    <color name="glass_pill_single">#CC8CC7BE</color>
+    <color name="glass_text">#F2FFFFFF</color>
+    <color name="glass_text_dim">#A6FFFFFF</color>
+    <color name="glass_on">#121212</color>
+    <color name="glass_on_single">#0C2420</color>
 </resources>

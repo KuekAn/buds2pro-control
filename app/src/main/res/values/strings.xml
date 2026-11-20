@@ -14,4 +14,5 @@
     <string name="reseating">Re-seating…</string>
     <string name="reseat_long">Re-seat buds</string>
     <string name="reseat_hint">Re-applies the noise mode to both buds, for when L and R disagree after putting them in.</string>
+    <string name="widget_glass">Buds noise control (glass)</string>
 </resources>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One row tall (e.g. 4x1): battery column, mode buttons filling the width, re-seat.
+     Buttons are drawn inset (see *_wide drawables) so they look smaller, but each whole
+     cell is tappable. Same ids as widget_tall so one binder fills both. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/w_root"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="horizontal" android:gravity="center_vertical" android:padding="2dp"
+    android:background="@drawable/glass_bg">
+
+    <TextView android:id="@+id/w_title"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <TextView android:id="@+id/w_battery"
+        android:layout_width="wrap_content" android:layout_height="match_parent"
+        android:minWidth="48dp" android:paddingStart="10dp" android:paddingEnd="6dp"
+        android:gravity="center" android:text="" android:textColor="@color/glass_text"
+        android:textSize="12sp" android:lineSpacingExtra="1dp" android:maxLines="3" />
+
+    <TextView android:id="@+id/w_anc" android:layout_width="0dp" android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:gravity="center" android:text="ANC" android:textSize="16sp" android:textStyle="bold"
+        android:autoSizeTextType="uniform" android:autoSizeMinTextSize="10sp" android:autoSizeMaxTextSize="16sp"
+        android:paddingStart="9dp" android:paddingEnd="9dp"
+        android:maxLines="1" android:textColor="@color/glass_text" android:background="@drawable/glass_pill_off_wide" />
+    <TextView android:id="@+id/w_amb" android:layout_width="0dp" android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:gravity="center" android:text="Ambient" android:textSize="16sp" android:textStyle="bold"
+        android:autoSizeTextType="uniform" android:autoSizeMinTextSize="10sp" android:autoSizeMaxTextSize="16sp"
+        android:paddingStart="9dp" android:paddingEnd="9dp"
+        android:maxLines="1" android:textColor="@color/glass_text" android:background="@drawable/glass_pill_off_wide" />
+    <TextView android:id="@+id/w_off" android:layout_width="0dp" android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:gravity="center" android:text="Off" android:textSize="16sp" android:textStyle="bold"
+        android:autoSizeTextType="uniform" android:autoSizeMinTextSize="10sp" android:autoSizeMaxTextSize="16sp"
+        android:paddingStart="9dp" android:paddingEnd="9dp"
+        android:maxLines="1" android:textColor="@color/glass_text" android:background="@drawable/glass_pill_off_wide" />
+
+    <TextView android:id="@+id/w_reseat"
+        android:layout_width="52dp" android:layout_height="match_parent"
+        android:gravity="center" android:text="↻" android:textSize="20sp"
+        android:textColor="@color/glass_text" android:background="@drawable/glass_pill_off_wide" />
+</LinearLayout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tall widget button: drawn inset so it looks smaller; the whole cell stays tappable. -->
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:insetLeft="3dp" android:insetRight="3dp" android:insetTop="12dp" android:insetBottom="12dp">
+    <shape android:shape="rectangle">
+        <solid android:color="@color/glass_pill_on" />
+        <corners android:radius="14dp" />
+    </shape>
+</inset>

@@ -1,6 +1,6 @@
 {
-  "versionCode": 4,
-  "versionName": "0.3.1",
-  "apk": "release/BudsControl-0.3.1.apk",
-  "notes": "First release build (not debuggable). Same features as 0.3.0."
+  "versionCode": 6,
+  "versionName": "0.3.3",
+  "apk": "release/BudsControl-0.3.3.apk",
+  "notes": "Glass widget that fits 4x1 with L/R/case battery; size-aware widget layouts; tap the battery column to use the buds here, double-tap to open the app."
 }

@@ -84,6 +84,7 @@ class MoreActivity : Activity() {
 
         header("Home screen widgets")
         col.addView(Button(this).apply { text = "Add battery widget"; setOnClickListener { pin(BudsWidget::class.java) } })
+        col.addView(Button(this).apply { text = "Add glass widget (fits 4x1)"; setOnClickListener { pin(GlassWidget::class.java) } })
         col.addView(Button(this).apply { text = "Add mode tile"; setOnClickListener { pin(ModeWidget::class.java) } })
 
         header("Connection")

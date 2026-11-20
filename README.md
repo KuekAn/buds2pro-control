@@ -10,7 +10,7 @@ The only network use is the update check: on request, or once a day if you turn 
 - Sticky with two devices: the app only opens its control link when the buds are already connected to this phone, so it never pulls them away from another device. A "Use the buds on this phone" button moves them on request.
 - Re-seat in one tap, for when the left and right buds pick up a different noise mode.
 - A soft teal state when only one bud is in an ear.
-- Home screen widgets: a battery widget with mode buttons, and a 1x1 mode tile.
+- Home screen widgets: a battery widget with mode buttons, a translucent "glass" widget that blends into dark home screens, and a 1x1 mode tile. The two larger widgets switch to a one-row layout at 4x1 and fill whatever size they are given.
 - An ongoing notification with mode actions.
 - Touch controls:
   - a master on/off switch

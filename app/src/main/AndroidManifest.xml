@@ -40,6 +40,11 @@
         <activity android:name=".FindActivity" android:exported="false" />
         <activity android:name=".MoreActivity" android:exported="false" />
         <activity android:name=".EqActivity" android:exported="false" />
+        <!-- Invisible: handles taps / double taps on the widget's left column. -->
+        <activity android:name=".WidgetTapActivity" android:exported="false"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:launchMode="singleTask" android:taskAffinity=".widgettap"
+            android:excludeFromRecents="true" android:noHistory="false" />
 
         <service android:name=".UpdateJob" android:exported="false"
             android:permission="android.permission.BIND_JOB_SERVICE" />
@@ -73,6 +78,18 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_buds_info" />
+        </receiver>
+
+        <receiver
+            android:name=".GlassWidget"
+            android:exported="true"
+            android:label="@string/widget_glass">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_glass_info" />
         </receiver>
 
         <receiver
