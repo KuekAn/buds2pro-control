@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Buds Control for Windows: a tray app for the Galaxy Buds2 Pro.
+       Framework APIs only (WinForms + Win32 Bluetooth), no NuGet packages. -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>BudsControl</AssemblyName>
+    <RootNamespace>BudsControl</RootNamespace>
+    <Version>0.1.0</Version>
+    <Product>Buds Control</Product>
+    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <!-- No debug symbols in the shipped exe, and source paths mapped so no local folder
+         (or user name) ends up inside the binary. -->
+    <DebugType>none</DebugType>
+    <PathMap>$(MSBuildProjectDirectory)=/src</PathMap>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+
+</Project>
