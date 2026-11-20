@@ -1,0 +1,6 @@
+{
+  "versionCode": 3,
+  "versionName": "0.3.0",
+  "apk": "release/BudsControl-0.3.0.apk",
+  "notes": "Check for updates in More; screen-off disconnect fix; EQ; sticky two-device link."
+}

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="widget_bg">#F2F4F7</color>
+    <color name="pill_off">#E2E6EC</color>
+    <color name="accent">#3D6DF2</color>
+    <color name="on_accent">#FFFFFF</color>
+    <color name="text">#1A1C20</color>
+    <color name="text_dim">#7A808A</color>
+    <color name="icon_bg">#1A1C20</color>
+    <color name="danger">#D93C3C</color>
+    <color name="single">#8CC7BE</color>
+    <color name="single_text">#2E7A70</color>
+    <color name="on_single">#10302B</color>
+</resources>

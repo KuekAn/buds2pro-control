@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Buds Control</string>
+    <string name="widget_full">Buds battery and noise control</string>
+    <string name="widget_mode">Buds noise mode</string>
+    <string name="channel_name">Buds connection</string>
+    <string name="connecting">Connecting…</string>
+    <string name="disconnected">Buds not connected</string>
+    <string name="tap_to_connect">Tap to connect</string>
+    <string name="offline_short">off</string>
+    <string name="find_start">Find my buds (beep)</string>
+    <string name="find_stop">Stop beeping</string>
+    <string name="reseat_short">Re-seat</string>
+    <string name="reseating">Re-seating…</string>
+    <string name="reseat_long">Re-seat buds</string>
+    <string name="reseat_hint">Re-applies the noise mode to both buds, for when L and R disagree after putting them in.</string>
+</resources>
