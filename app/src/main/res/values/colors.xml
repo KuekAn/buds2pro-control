@@ -20,4 +20,7 @@
     <color name="glass_text_dim">#A6FFFFFF</color>
     <color name="glass_on">#121212</color>
     <color name="glass_on_single">#0C2420</color>
+    <!-- Minimal tile: barely-there background, teal text when only one bud is in. -->
+    <color name="minimal_bg">#33000000</color>
+    <color name="minimal_single">#FF9FD6CC</color>
 </resources>

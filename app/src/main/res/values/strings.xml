@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Buds Control</string>
-    <string name="widget_full">Buds battery and noise control</string>
-    <string name="widget_mode">Buds noise mode</string>
+    <string name="widget_full">Solid · Controls</string>
+    <string name="widget_mode">Solid · Mode tile</string>
     <string name="channel_name">Buds connection</string>
     <string name="connecting">Connecting…</string>
     <string name="disconnected">Buds not connected</string>
@@ -14,5 +14,16 @@
     <string name="reseating">Re-seating…</string>
     <string name="reseat_long">Re-seat buds</string>
     <string name="reseat_hint">Re-applies the noise mode to both buds, for when L and R disagree after putting them in.</string>
-    <string name="widget_glass">Buds noise control (glass)</string>
+    <string name="widget_glass">Glass · Controls</string>
+    <string name="widget_vertical">Solid · Vertical</string>
+    <string name="widget_glass_vertical">Glass · Vertical</string>
+    <string name="widget_minimal">Minimal · Mode tile</string>
+    <string name="channel_quiet">Buds connection (quiet)</string>
+    <!-- Widget picker descriptions (Android 12+). -->
+    <string name="widget_full_desc">4x2 battery, ANC / Ambient / Off and re-seat. Shrinks to a one-row 4x1.</string>
+    <string name="widget_glass_desc">See-through version of Controls for dark wallpapers. 4x1 by default, grows to 4x2.</string>
+    <string name="widget_vertical_desc">Buttons stacked in a column, 1x3. Battery on top.</string>
+    <string name="widget_glass_vertical_desc">See-through version of Vertical, 1x3.</string>
+    <string name="widget_mode_desc">1x1 tile showing the noise mode. Tap to cycle ANC, Ambient, Off.</string>
+    <string name="widget_minimal_desc">Faint 1x1 tile, just the mode and battery. Tap to cycle.</string>
 </resources>

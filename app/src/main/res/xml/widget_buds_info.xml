@@ -7,5 +7,5 @@
     android:updatePeriodMillis="0"
     android:initialLayout="@layout/widget_tall"
     android:previewLayout="@layout/widget_tall"
-    android:description="@string/widget_full"
+    android:description="@string/widget_full_desc"
     android:widgetCategory="home_screen" />

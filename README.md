@@ -10,8 +10,12 @@ The only network use is the update check: on request, or once a day if you turn 
 - Sticky with two devices: the app only opens its control link when the buds are already connected to this phone, so it never pulls them away from another device. A "Use the buds on this phone" button moves them on request.
 - Re-seat in one tap, for when the left and right buds pick up a different noise mode.
 - A soft teal state when only one bud is in an ear.
-- Home screen widgets: a battery widget with mode buttons, a translucent "glass" widget that blends into dark home screens, and a 1x1 mode tile. The two larger widgets switch to a one-row layout at 4x1 and fill whatever size they are given.
-- An ongoing notification with mode actions.
+- Home screen widgets, each in a solid or see-through "glass" style:
+  - Controls: battery, ANC / Ambient / Off and re-seat; one row at 4x1, a full grid at 4x2 and up.
+  - Vertical: the same buttons stacked in a column (1x3).
+  - Mode tile (solid) and a minimal faint tile, both down to 1x1; tap cycles the mode.
+  On the one-row layouts, tap the battery column to bring the buds to this device and double-tap it to open the app.
+- An ongoing notification with mode actions while linked; More can switch it to a silent one without buttons (Android requires some notification while the link runs).
 - Touch controls:
   - a master on/off switch
   - single, double and triple tap, and touch and hold

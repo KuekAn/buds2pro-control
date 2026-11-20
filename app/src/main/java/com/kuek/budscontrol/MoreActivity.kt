@@ -4,7 +4,9 @@ import android.app.Activity
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.graphics.Typeface
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
@@ -82,10 +84,33 @@ class MoreActivity : Activity() {
         tone = slider("Tone (soft to clear)", 4)
         col.addView(customBox)
 
+        header("Notification")
+        col.addView(sw("Controls notification while connected\nBattery and ANC / Ambient / Off buttons").apply {
+            isChecked = BudsService.notifFull(this@MoreActivity)
+            setOnClickListener { BudsService.setNotifFull(this@MoreActivity, isChecked) }
+        })
+        col.addView(TextView(this).apply {
+            text = "Android needs some notification while the app is linked to the buds. Turned off, it becomes " +
+                "a silent, collapsed one with no buttons. To hide that too, switch off its category here:"
+            textSize = 12f; setTextColor(getColor(R.color.text_dim))
+        })
+        col.addView(Button(this).apply {
+            text = "Hide the quiet notification…"
+            setOnClickListener {
+                BudsService.ensureChannels(this@MoreActivity)
+                startActivity(Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
+                    .putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+                    .putExtra(Settings.EXTRA_CHANNEL_ID, BudsService.CHANNEL_QUIET))
+            }
+        })
+
         header("Home screen widgets")
-        col.addView(Button(this).apply { text = "Add battery widget"; setOnClickListener { pin(BudsWidget::class.java) } })
-        col.addView(Button(this).apply { text = "Add glass widget (fits 4x1)"; setOnClickListener { pin(GlassWidget::class.java) } })
-        col.addView(Button(this).apply { text = "Add mode tile"; setOnClickListener { pin(ModeWidget::class.java) } })
+        col.addView(Button(this).apply { text = "Add Solid · Controls"; setOnClickListener { pin(BudsWidget::class.java) } })
+        col.addView(Button(this).apply { text = "Add Glass · Controls (4x1)"; setOnClickListener { pin(GlassWidget::class.java) } })
+        col.addView(Button(this).apply { text = "Add Solid · Vertical"; setOnClickListener { pin(BudsVerticalWidget::class.java) } })
+        col.addView(Button(this).apply { text = "Add Glass · Vertical"; setOnClickListener { pin(GlassVerticalWidget::class.java) } })
+        col.addView(Button(this).apply { text = "Add Solid · Mode tile"; setOnClickListener { pin(ModeWidget::class.java) } })
+        col.addView(Button(this).apply { text = "Add Minimal · Mode tile"; setOnClickListener { pin(MinimalTileWidget::class.java) } })
 
         header("Connection")
         col.addView(Button(this).apply {

@@ -1,6 +1,6 @@
 {
-  "versionCode": 6,
-  "versionName": "0.3.3",
-  "apk": "release/BudsControl-0.3.3.apk",
-  "notes": "Glass widget that fits 4x1 with L/R/case battery; size-aware widget layouts; tap the battery column to use the buds here, double-tap to open the app."
+  "versionCode": 7,
+  "versionName": "0.3.4",
+  "apk": "release/BudsControl-0.3.4.apk",
+  "notes": "Vertical widgets (solid and glass), a minimal 1x1 mode tile, clearer widget names, and an option for a quiet connection notification."
 }

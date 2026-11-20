@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Vertical (e.g. 1x3): battery at the top, mode buttons stacked, re-seat at the bottom.
+     Buttons are drawn inset (*_wide drawables); each whole row is tappable.
+     Same ids as the other widget layouts so one binder fills all of them. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/w_root"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:padding="2dp"
+    android:background="@drawable/widget_bg">
+
+    <TextView android:id="@+id/w_title"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <TextView android:id="@+id/w_battery"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:minHeight="40dp" android:paddingTop="8dp" android:paddingBottom="4dp"
+        android:gravity="center" android:text="" android:textColor="@color/text"
+        android:textSize="12sp" android:lineSpacingExtra="1dp" android:maxLines="3" />
+
+    <TextView android:id="@+id/w_anc" android:layout_width="match_parent"
+        android:layout_height="0dp" android:layout_weight="1"
+        android:gravity="center" android:text="ANC" android:textSize="16sp" android:textStyle="bold"
+        android:autoSizeTextType="uniform" android:autoSizeMinTextSize="10sp" android:autoSizeMaxTextSize="16sp"
+        android:paddingStart="9dp" android:paddingEnd="9dp"
+        android:maxLines="1" android:textColor="@color/text" android:background="@drawable/pill_off_wide" />
+    <TextView android:id="@+id/w_amb" android:layout_width="match_parent"
+        android:layout_height="0dp" android:layout_weight="1"
+        android:gravity="center" android:text="Ambient" android:textSize="16sp" android:textStyle="bold"
+        android:autoSizeTextType="uniform" android:autoSizeMinTextSize="10sp" android:autoSizeMaxTextSize="16sp"
+        android:paddingStart="9dp" android:paddingEnd="9dp"
+        android:maxLines="1" android:textColor="@color/text" android:background="@drawable/pill_off_wide" />
+    <TextView android:id="@+id/w_off" android:layout_width="match_parent"
+        android:layout_height="0dp" android:layout_weight="1"
+        android:gravity="center" android:text="Off" android:textSize="16sp" android:textStyle="bold"
+        android:autoSizeTextType="uniform" android:autoSizeMinTextSize="10sp" android:autoSizeMaxTextSize="16sp"
+        android:paddingStart="9dp" android:paddingEnd="9dp"
+        android:maxLines="1" android:textColor="@color/text" android:background="@drawable/pill_off_wide" />
+
+    <TextView android:id="@+id/w_reseat"
+        android:layout_width="match_parent" android:layout_height="48dp"
+        android:gravity="center" android:text="↻" android:textSize="20sp"
+        android:textColor="@color/text" android:background="@drawable/pill_off_wide" />
+</LinearLayout>

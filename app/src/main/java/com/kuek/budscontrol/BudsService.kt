@@ -60,6 +60,26 @@ class BudsService : Service() {
             intent(ctx, ACTION_SETTING).putExtra(EXTRA_KEY, key).putExtra(EXTRA_VALUE, value))
         const val EXTRA_MODE = "mode"
         private const val CHANNEL = "buds"
+        /** Used when the user turns the controls notification off: lowest importance, no actions. */
+        const val CHANNEL_QUIET = "buds_quiet"
+
+        /** Android needs a notification while the link runs; this picks the full or the quiet one. */
+        fun notifFull(ctx: Context) = ctx.getSharedPreferences("buds", MODE_PRIVATE).getBoolean("notif_full", true)
+
+        fun setNotifFull(ctx: Context, on: Boolean) {
+            ctx.getSharedPreferences("buds", MODE_PRIVATE).edit().putBoolean("notif_full", on).apply()
+            instance?.refreshNotification()
+        }
+
+        fun ensureChannels(ctx: Context) {
+            val nm = ctx.getSystemService(NotificationManager::class.java)
+            nm.createNotificationChannel(
+                NotificationChannel(CHANNEL, ctx.getString(R.string.channel_name), NotificationManager.IMPORTANCE_LOW)
+                    .apply { setShowBadge(false) })
+            nm.createNotificationChannel(
+                NotificationChannel(CHANNEL_QUIET, ctx.getString(R.string.channel_quiet), NotificationManager.IMPORTANCE_MIN)
+                    .apply { setShowBadge(false) })
+        }
         private const val NOTIF_ID = 1
 
         fun intent(ctx: Context, action: String, mode: Int = -1) =
@@ -121,11 +141,7 @@ class BudsService : Service() {
     override fun onCreate() {
         super.onCreate()
         BudsStore.logFile = getExternalFilesDir(null)?.let { java.io.File(it, "link.log") }
-        val nm = getSystemService(NotificationManager::class.java)
-        nm.createNotificationChannel(
-            NotificationChannel(CHANNEL, getString(R.string.channel_name), NotificationManager.IMPORTANCE_LOW)
-                .apply { setShowBadge(false) }
-        )
+        ensureChannels(this)
         startForeground(NOTIF_ID, buildNotification(BudsStore.get(this)))
         BudsStore.addListener(notifListener)
         registerReceiver(screenReceiver, IntentFilter().apply {
@@ -458,6 +474,11 @@ class BudsService : Service() {
         super.onDestroy()
     }
 
+    /** Re-posts the foreground notification after the full / quiet setting changes. */
+    fun refreshNotification() {
+        if (!finished) startForeground(NOTIF_ID, buildNotification(BudsStore.get(this)))
+    }
+
     private fun buildNotification(s: BudsStatus): Notification {
         val open = PendingIntent.getActivity(
             this, 0, Intent(this, MainActivity::class.java),
@@ -468,6 +489,13 @@ class BudsService : Service() {
             s.connecting -> getString(R.string.connecting)
             else -> getString(R.string.disconnected)
         }
+        if (!notifFull(this)) return Notification.Builder(this, CHANNEL_QUIET)
+            .setSmallIcon(R.drawable.ic_buds)
+            .setContentTitle(if (s.connected) "${s.name.removePrefix("Galaxy ")} linked" else title)
+            .setContentIntent(open)
+            .setOngoing(true)
+            .setShowWhen(false)
+            .build()
         return Notification.Builder(this, CHANNEL)
             .setSmallIcon(R.drawable.ic_buds)
             .setContentTitle(title)

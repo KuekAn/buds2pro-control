@@ -11,27 +11,31 @@ import android.os.Bundle
 import android.util.SizeF
 import android.widget.RemoteViews
 
-/** Battery for L, R and case plus ANC / Ambient / Off buttons. */
-class BudsWidget : AppWidgetProvider() {
+/** Every widget redraws from the same status; resizing redraws too. */
+open class BaseWidget : AppWidgetProvider() {
     override fun onUpdate(ctx: Context, mgr: AppWidgetManager, ids: IntArray) =
         Widgets.updateAll(ctx, BudsStore.get(ctx))
     override fun onAppWidgetOptionsChanged(ctx: Context, mgr: AppWidgetManager, id: Int, o: Bundle) =
         Widgets.updateAll(ctx, BudsStore.get(ctx))
 }
+
+/** Battery for L, R and case plus ANC / Ambient / Off buttons (solid). */
+class BudsWidget : BaseWidget()
 
 /** Same controls in a translucent "glass" style that sits quietly on any wallpaper. */
-class GlassWidget : AppWidgetProvider() {
-    override fun onUpdate(ctx: Context, mgr: AppWidgetManager, ids: IntArray) =
-        Widgets.updateAll(ctx, BudsStore.get(ctx))
-    override fun onAppWidgetOptionsChanged(ctx: Context, mgr: AppWidgetManager, id: Int, o: Bundle) =
-        Widgets.updateAll(ctx, BudsStore.get(ctx))
-}
+class GlassWidget : BaseWidget()
+
+/** Buttons stacked vertically (e.g. 1x3), solid. */
+class BudsVerticalWidget : BaseWidget()
+
+/** Buttons stacked vertically, glass. */
+class GlassVerticalWidget : BaseWidget()
 
 /** 1x1 tile: shows the noise mode, tap to cycle ANC -> Ambient -> Off. */
-class ModeWidget : AppWidgetProvider() {
-    override fun onUpdate(ctx: Context, mgr: AppWidgetManager, ids: IntArray) =
-        Widgets.updateAll(ctx, BudsStore.get(ctx))
-}
+class ModeWidget : BaseWidget()
+
+/** Minimal see-through tile (down to 1x1): mode name only, tap to cycle. */
+class MinimalTileWidget : BaseWidget()
 
 object Widgets {
 
@@ -77,34 +81,52 @@ object Widgets {
     private const val TALL_DP = 150f  // one row is ~109 dp on a 400 dpi tablet, two ~229 dp
     private const val WIDE_DP = 230f
 
+    /** Layout shapes: one row, the tall grid, or stacked buttons. */
+    private enum class Shape { ROW, TALL, VERTICAL }
+
     fun updateAll(ctx: Context, s: BudsStatus) {
         val mgr = AppWidgetManager.getInstance(ctx)
-        for ((cls, style) in listOf(BudsWidget::class.java to SOLID, GlassWidget::class.java to GLASS)) {
-            for (id in mgr.getAppWidgetIds(ComponentName(ctx, cls))) mgr.updateAppWidget(id, sized(ctx, mgr, id, s, style))
+        val full = listOf(
+            Triple(BudsWidget::class.java, SOLID, false), Triple(GlassWidget::class.java, GLASS, false),
+            Triple(BudsVerticalWidget::class.java, SOLID, true), Triple(GlassVerticalWidget::class.java, GLASS, true),
+        )
+        for ((cls, style, vertical) in full) {
+            for (id in mgr.getAppWidgetIds(ComponentName(ctx, cls)))
+                mgr.updateAppWidget(id, sized(ctx, mgr, id, s, style, vertical))
         }
         val mode = mgr.getAppWidgetIds(ComponentName(ctx, ModeWidget::class.java))
         if (mode.isNotEmpty()) mgr.updateAppWidget(mode, modeViews(ctx, s))
+        val minimal = mgr.getAppWidgetIds(ComponentName(ctx, MinimalTileWidget::class.java))
+        if (minimal.isNotEmpty()) mgr.updateAppWidget(minimal, minimalViews(ctx, s))
     }
 
     /**
      * Android 12+: hand the launcher every variant and let it pick by the widget's real size
      * (so resizing switches instantly). Older: pick from the size the launcher reports.
      */
-    private fun sized(ctx: Context, mgr: AppWidgetManager, id: Int, s: BudsStatus, st: Style): RemoteViews {
+    private fun sized(ctx: Context, mgr: AppWidgetManager, id: Int, s: BudsStatus, st: Style,
+                      vertical: Boolean): RemoteViews {
+        // Vertical widgets stack their buttons once tall enough; squashed flat they use the row.
+        val tallShape = if (vertical) Shape.VERTICAL else Shape.TALL
         if (Build.VERSION.SDK_INT >= 31) return RemoteViews(mapOf(
-            SizeF(0f, 0f) to fullViews(ctx, s, st, tall = false, wide = false),
-            SizeF(WIDE_DP, 0f) to fullViews(ctx, s, st, tall = false, wide = true),
-            SizeF(0f, TALL_DP) to fullViews(ctx, s, st, tall = true, wide = false),
-            SizeF(WIDE_DP, TALL_DP) to fullViews(ctx, s, st, tall = true, wide = true),
+            SizeF(0f, 0f) to fullViews(ctx, s, st, Shape.ROW, wide = false),
+            SizeF(WIDE_DP, 0f) to fullViews(ctx, s, st, Shape.ROW, wide = true),
+            SizeF(0f, TALL_DP) to fullViews(ctx, s, st, tallShape, wide = false),
+            SizeF(WIDE_DP, TALL_DP) to fullViews(ctx, s, st, tallShape, wide = true),
         ))
         val o = mgr.getAppWidgetOptions(id)
         val h = o.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, 110)
         val w = o.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, 250)
-        return fullViews(ctx, s, st, tall = h >= TALL_DP, wide = w >= WIDE_DP)
+        return fullViews(ctx, s, st, if (h >= TALL_DP) tallShape else Shape.ROW, wide = w >= WIDE_DP)
     }
 
-    private fun fullViews(ctx: Context, s: BudsStatus, st: Style, tall: Boolean, wide: Boolean): RemoteViews {
-        val v = RemoteViews(ctx.packageName, if (tall) R.layout.widget_tall else R.layout.widget_wide)
+    private fun fullViews(ctx: Context, s: BudsStatus, st: Style, shape: Shape, wide: Boolean): RemoteViews {
+        val tall = shape == Shape.TALL
+        val v = RemoteViews(ctx.packageName, when (shape) {
+            Shape.TALL -> R.layout.widget_tall
+            Shape.ROW -> R.layout.widget_wide
+            Shape.VERTICAL -> R.layout.widget_vertical
+        })
         val live = s.connected
         v.setInt(R.id.w_root, "setBackgroundResource", st.bg)
         v.setTextViewText(R.id.w_title, s.name.removePrefix("Galaxy "))
@@ -121,12 +143,14 @@ object Widgets {
             else -> statusLine(s)
         })
         v.setTextColor(R.id.w_battery, ctx.getColor(if (live) st.text else st.dim))
-        // One-row layout, buds not linked here: a quiet buds icon instead of battery text.
-        val icon = !tall && !live && !s.connecting
-        v.setTextViewCompoundDrawables(R.id.w_battery, if (icon) st.icon else 0, 0, 0, 0)
+        // Row / vertical layout, buds not linked here: a quiet buds icon instead of battery text
+        // (start drawable in the row's narrow column, top drawable in the vertical's full-width header).
+        val icon = if (!tall && !live && !s.connecting) st.icon else 0
+        if (shape == Shape.VERTICAL) v.setTextViewCompoundDrawables(R.id.w_battery, 0, icon, 0, 0)
+        else v.setTextViewCompoundDrawables(R.id.w_battery, icon, 0, 0, 0)
 
         bindMode(ctx, v, R.id.w_anc, Protocol.MODE_ANC, s, st, tall, "ANC")
-        bindMode(ctx, v, R.id.w_amb, Protocol.MODE_AMBIENT, s, st, tall, if (wide) "Ambient" else "Amb")
+        bindMode(ctx, v, R.id.w_amb, Protocol.MODE_AMBIENT, s, st, tall, if (wide || shape == Shape.VERTICAL) "Ambient" else "Amb")
         bindMode(ctx, v, R.id.w_off, Protocol.MODE_OFF, s, st, tall, "Off")
 
         v.setTextViewText(R.id.w_reseat, when {
@@ -180,6 +204,27 @@ object Widgets {
         val fg = when { single -> R.color.on_single; active -> R.color.on_accent; else -> R.color.text }
         v.setTextColor(R.id.m_mode, ctx.getColor(fg))
         v.setTextColor(R.id.m_batt, ctx.getColor(if (active) fg else R.color.text_dim))
+        v.setOnClickPendingIntent(R.id.m_root, BudsService.pending(ctx, BudsService.ACTION_CYCLE_MODE))
+        return v
+    }
+
+    /** Minimal tile: no fill colour; the mode name is bright when active, faint when off. */
+    private fun minimalViews(ctx: Context, s: BudsStatus): RemoteViews {
+        val v = RemoteViews(ctx.packageName, R.layout.widget_minimal)
+        v.setTextViewText(R.id.m_mode, if (s.connected && s.mode in 0..2) s.modeLabel() else "Buds")
+        val low = listOf(s.battL to s.placeL, s.battR to s.placeR)
+            .filter { it.first in 1..100 && it.second != 0 }.minOfOrNull { it.first }
+        v.setTextViewText(R.id.m_batt, when {
+            s.connected && low != null -> "$low%"
+            s.connecting -> "…"
+            else -> ""
+        })
+        val active = s.connected && s.mode != Protocol.MODE_OFF && s.mode >= 0
+        v.setTextColor(R.id.m_mode, ctx.getColor(when {
+            active && s.singleBud() -> R.color.minimal_single
+            active -> R.color.glass_text
+            else -> R.color.glass_text_dim
+        }))
         v.setOnClickPendingIntent(R.id.m_root, BudsService.pending(ctx, BudsService.ACTION_CYCLE_MODE))
         return v
     }

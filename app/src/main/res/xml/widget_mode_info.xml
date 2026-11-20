@@ -6,5 +6,5 @@
     android:updatePeriodMillis="0"
     android:initialLayout="@layout/widget_mode"
     android:previewLayout="@layout/widget_mode"
-    android:description="@string/widget_mode"
+    android:description="@string/widget_mode_desc"
     android:widgetCategory="home_screen" />
